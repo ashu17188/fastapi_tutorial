@@ -1,6 +1,6 @@
 # Introduction
 
-This project is Rest api development and AI/ML model deployment on cloud.
+This project for AI/ML model deployment on cloud using Fastapi Rest endpoints.
 
 ## Install dependencies
 
