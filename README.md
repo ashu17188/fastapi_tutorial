@@ -13,7 +13,7 @@ pip install uvicorn
 ## Run fast api
 
 ```
-uvicorn main:app --reload
+uvicorn app:app --reload
 ```
 
 ## Open Api implementation

@@ -8,14 +8,14 @@ Created on Sat Feb 20 17:28:19 2021
 
 import uvicorn
 from fastapi import FastAPI
-from bank_notes import BankNotes
+from bank_note.notes import BankNotes
 import numpy as np
 import pandas as pd
 import pickle
 
 
 app = FastAPI()
-pickle_in = open("banknote_classifier.pkl", "rb")
+pickle_in = open("./bank_note/banknote_classifier.pkl", "rb")
 model = pickle.load(pickle_in)
 
 
