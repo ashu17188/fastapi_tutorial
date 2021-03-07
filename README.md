@@ -1,31 +1,44 @@
-# Introduction
+# FastAPI starter kit
 
-This project for AI/ML model deployment on cloud using Fastapi Rest endpoints.
+[FastAPI](https://fastapi.tiangolo.com/) simple starter kit
 
-## Install dependencies
+## Rewuirement
 
-```
-conda install python
-pip install fastapi
-pip install uvicorn
-```
+Python 3.8+
 
-## Run fast api
+## Installation
 
-```
-uvicorn app:app --reload
-```
+Use [poetry](https://python-poetry.org/docs/)
 
-## Open Api implementation
-
-```
-http://127.0.0.1:8000/docs
+```bash
+$ python3 -m venv venv
+$ source venv/bin/activate
+(venv) $ poetry install
 ```
 
-## Authors
+## Usage
 
-- **Ashutosh Shukla** - _Product Development_ - [Repository](https://github.com/ashu17188)
+### Running
 
-## References
+```bash
+(venv) $ python app.py
+```
 
-** Refactoring ** https://refactoring.guru/refactoring/
+### Testing
+
+```bash
+(venv) $ pytest .
+```
+
+### Docker
+
+```bash
+docker-compose -f docker-compose-local.yml up
+```
+
+## Docker command
+
+```
+docker rmi fastapi_tutorial:latest
+docker image prune -f
+```

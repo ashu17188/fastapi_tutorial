@@ -1,52 +1,53 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Feb 20 17:28:19 2021
-
-@author: Ashutosh Shukla
-"""
-
-import uvicorn
-from fastapi import FastAPI
-from bank_note.notes import BankNotes
-import numpy as np
-import pandas as pd
-import pickle
-
+from fastapi import FastAPI ,APIRouter, Depends, Request, Response
+from starlette.middleware.cors import CORSMiddleware
+from book import app as app_book
+from bank_note import app as app_bank_note
+from db import session
 
 app = FastAPI()
-pickle_in = open("./bank_note/banknote_classifier.pkl", "rb")
-model = pickle.load(pickle_in)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        # TODO CORS URLS
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get('/')
-def index():
-    return {'message': 'Hello from bank note model'}
-
-
-@app.get('/{name}')
-def showName(name: str):
-    return {'Welcome to model prediction': f'{name}'}
-
-
-@app.post('/predict')
-def predictBankNoteModel(data: BankNotes):
-    data = data.dict()
-    variance = data['variance']
-    skewness = data['skewness']
-    curtosis = data['curtosis']
-    entropy = data['entropy']
-
-    prediction = model.predict([[variance, skewness, curtosis, entropy]])
-    if(prediction < 0.5):
-        prediction = 'Fake Note'
-    else:
-        prediction = 'Its a Bank note'
-
+async def index():
     return {
-        prediction
+        'msg': ':bird: 33-4 :tiger:'
     }
 
 
+app.include_router(
+    app_book.api,
+    prefix='/book',
+    tags=['book']
+)
+
+app.include_router(
+    app_bank_note.api,
+    prefix='/bank_note',
+    tags=['bank_note']
+)
+
+@app.middleware("http")
+async def db_session_middleware(request: Request, call_next):
+    response = Response("Internal server error", status_code=500)
+    try:
+        request.state.db = session()
+        response = await call_next(request)
+    finally:
+        request.state.db.close()
+    return response
+
+
 if __name__ == '__main__':
-    uvicorn.run(app, host='127.0.0.1', port=8080)
+    import uvicorn
+
+    uvicorn.run(app, host='0.0.0.0', port=8080)
