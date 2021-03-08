@@ -1,15 +1,16 @@
 from fastapi import APIRouter, Depends, Request
-from bank_note.notes import BankNotes
+from banknote.notes import BankNotes
 import numpy as np
 import pandas as pd
 import pickle
 
 api = APIRouter()
-pickle_in = open("./bank_note/banknote_classifier.pkl", "rb")
+pickle_in = open("./banknote/banknote_classifier.pkl", "rb")
 model = pickle.load(pickle_in)
 
+
 @api.post('/predict')
-def predictBankNoteModel(data: BankNotes):
+async def predictBankNoteModel(data: BankNotes):
     data = data.dict()
     variance = data['variance']
     skewness = data['skewness']
@@ -25,4 +26,3 @@ def predictBankNoteModel(data: BankNotes):
     return {
         prediction
     }
-

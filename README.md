@@ -4,16 +4,13 @@
 
 ## Rewuirement
 
-Python 3.8+
+Python 3.9
 
-## Installation
+## Installation of dependencies
 
-Use [poetry](https://python-poetry.org/docs/)
-
-```bash
-$ python3 -m venv venv
-$ source venv/bin/activate
-(venv) $ poetry install
+```
+conda install poetry
+poetry install
 ```
 
 ## Usage
@@ -32,13 +29,29 @@ $ source venv/bin/activate
 
 ### Docker
 
-```bash
-docker-compose -f docker-compose-local.yml up
+```
+docker build -t fastapi_sample .
 ```
 
-## Docker command
+```
+docker run -it --name fastapi_dev -p 8080:8080 fastapi_sample:latest
+```
+
+## Application url
 
 ```
-docker rmi fastapi_tutorial:latest
+http://0.0.0.0:8080/
+```
+
+## Swagger url
+
+```
+http://0.0.0.0:8080/docs
+```
+
+## Additional helpful Docker command
+
+```
+docker rmi fastapi_sample:latest
 docker image prune -f
 ```

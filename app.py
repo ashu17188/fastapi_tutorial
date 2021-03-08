@@ -1,7 +1,7 @@
-from fastapi import FastAPI ,APIRouter, Depends, Request, Response
+from fastapi import FastAPI, APIRouter, Depends, Request, Response
 from starlette.middleware.cors import CORSMiddleware
+from banknote import app as app_banknote
 from book import app as app_book
-from bank_note import app as app_bank_note
 from db import session
 
 app = FastAPI()
@@ -31,10 +31,11 @@ app.include_router(
 )
 
 app.include_router(
-    app_bank_note.api,
+    app_banknote.api,
     prefix='/bank_note',
     tags=['bank_note']
 )
+
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
